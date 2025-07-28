@@ -4,7 +4,7 @@ from gpiozero import PWMLED
 
 led = PWMLED(17, frequency=1000)
 adc = ADCDevice()
-ADC_MAX = 255.0 # 8-bit ADC: 0-255
+ADC_MAX = 255.0 # 8-bit ADC
 
 def loop():
     while True:
