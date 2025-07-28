@@ -8,6 +8,7 @@ enable_pin = PWMOutputDevice(22, frequency=1000)
 adc = ADS7830()
 
 def map_num(value, from_low, from_high, to_low, to_high):
+    """Map ADC value to 0-100 scale."""
     return (
         (to_high - to_low) 
         * (value - from_low) 
@@ -16,12 +17,22 @@ def map_num(value, from_low, from_high, to_low, to_high):
     )
 
 def motor(adc_value):
+    """Use ADC readings as a controller.
+
+    L293D driver to DC Motor.
+
+    GPIO -> Out
+        - Control direction
+    GPIO -> Enable
+        - Control speed
+    """
+    # 8-bit ADC (ADS7830)
     value = adc_value - 128
-    if (value > 0):
+    if (value > 20):
         motor_pin1.on()
         motor_pin2.off()
         print('Turn forward...')
-    elif (value < 0):
+    elif (value < -20):
         motor_pin1.off()
         motor_pin2.on()
         print('Turn backward...')
